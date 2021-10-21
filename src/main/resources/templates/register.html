@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>EpicTask - Registro</title>
+<link th:href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+	<h1>Registro</h1>
+	<h2>Para cadastrar um novo usuário no sistema, preencha o formulário com as informações solicitadas.</h2>
+ 
+	<div class="info">
+		<form action="/list" method="post" th:object="${account}">
+		
+			<input name="nome" placeholder="Nome" th:field="*{nome}">
+			<h4 th:errors="*{nome}"></h4>
+			
+			<input name="email" placeholder="Email" th:field="*{email}">
+			<h4 th:errors="*{email}"></h4>
+			
+			<input name="senha" placeholder="Senha" type="password" th:field="*{senha}">
+			<h4 th:errors="*{senha}"></h4>
+			
+			<a href="/list">Listagem</a>
+			<button>Cadastrar</button>
+			
+		</form>
+	</div>
+	<div class="cttgroup">
+		<a href="/home"><< Início</a>
+	</div>
+
+</body>
+</html>
