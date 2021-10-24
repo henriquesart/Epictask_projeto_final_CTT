@@ -23,10 +23,15 @@ h4 {
 	margin: 5px 0 -5px 0;
 }
 
+.avatar{
+	width: 150px;
+	border-radius: 15px;
+}
+
 .start {
 	margin: auto;
-	margin-top: 120px;
-	width: 600px;
+	margin-top: 70px;
+	width: 930px;
 }
 
 .start ul {
@@ -35,10 +40,11 @@ h4 {
 }
 
 .start li {
-	display: inline;
+	margin-top: 50px;
 }
 
 .start li a {
+
 	text-align: center;
 	font-size: 30px;
 	color: black;
@@ -63,7 +69,7 @@ h4 {
 
 .cttgroup {
 	margin: auto;
-	margin-top: 100px;
+	margin-top: 70px;
 	width: 45%;
 	padding: 10px;
 }
@@ -165,12 +171,16 @@ button:hover {
 	min-width: 300px;
 	width: 30%;
 	padding: 20px;
-	border: 1px solid black;
+	border: 1px solid rgba(0,0,0,0.3);
 	transition: 0.2s;
 }
 
 .listagem li:hover {
-	width: 31%;
+	border: 1px solid rgba(0,0,0);
+}
+
+#titletask{
+	font-weight: bold;
 }
 
 #comms {

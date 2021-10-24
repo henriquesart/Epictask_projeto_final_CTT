@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.com.fiap.epictask.model.Account;
 import br.com.fiap.epictask.repository.AccountRepository;
+import br.com.fiap.epictask.service.AuthenticationService;
 
 @Controller
 public class AccountController {
@@ -36,9 +37,8 @@ public class AccountController {
 	
 	@PostMapping("/list")
 	public String save(@Valid Account account, BindingResult result) {
-		if(result.hasErrors()) {
-			return "register";
-		}
+		if(result.hasErrors()) return "register";
+		account.setSenha(AuthenticationService.getPasswordEnconder().encode(account.getSenha()));
 		repository.save(account);
 		return "index";
 	}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>EpicTask - Tarefas</title>
+<link th:href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+	<h1 th:text="#{title.task.d}"></h1>
+	<h2 th:text="#{subtitle.task.d}"></h2>
+	<div class="listagem">
+
+		<ul th:each="task : ${tasks}">
+			<li>
+				<h2 th:text="${task.id}"></h2>
+				<p th:text="${task.title}" id="titletask"><p>
+				<p th:text="${task.description}"></p>
+				<p th:text="#{sub.task.a}"><p>
+				<p th:text="${task.points}" id="comms"></p>
+				<p th:text="#{sub.task.b}"><p>
+				<p th:text="${task.status}" id="comms"></p>
+			</li>
+		</ul>
+	</div>
+	<div class="cttgroup">
+		<a href="/home"><< Início</a>
+	</div>
+
+</body>
+</html>

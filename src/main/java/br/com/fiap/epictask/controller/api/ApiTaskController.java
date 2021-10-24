@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -22,48 +23,48 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.fiap.epictask.model.Account;
-import br.com.fiap.epictask.repository.AccountRepository;
+import br.com.fiap.epictask.model.Task;
+import br.com.fiap.epictask.repository.TaskRepository;
 
 @RestController
-@RequestMapping("/api/user")
-public class ApiAccountController {
-
+@RequestMapping("/api/task")
+public class ApiTaskController {
+	
 	@Autowired
-	private AccountRepository repository;
+	private TaskRepository repository;
 
 	@GetMapping()
-	@Cacheable("accounts")
-	public Optional<Account> index(@RequestParam(required = false) String email,
+	@Cacheable("tasks")
+	public Page<Task> index(@RequestParam(required = false) String nome,
 			@PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-		if (email == null) {
-			return null;
+		if (nome == null) {
+			return repository.findAll(pageable);
 		}
-		return repository.findByEmail("%" + email + "%");
+		return repository.findByTitleLike("%" + nome + "%", pageable);
 
 	}
 
 	@PostMapping()
-	@CacheEvict(value = "accounts", allEntries = true)
-	public ResponseEntity<Account> create(@RequestBody @Valid Account account, UriComponentsBuilder uriBuilder) {
-		repository.save(account);
-		URI uri = uriBuilder.path("/api/task/{id}").buildAndExpand(account.getId()).toUri();
-		return ResponseEntity.created(uri).body(account);
+	@CacheEvict(value = "tasks", allEntries = true)
+	public ResponseEntity<Task> create(@RequestBody @Valid Task task, UriComponentsBuilder uriBuilder) {
+		repository.save(task);
+		URI uri = uriBuilder.path("/api/task/{id}").buildAndExpand(task.getId()).toUri();
+		return ResponseEntity.created(uri).body(task);
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<Account> get(@PathVariable Long id) {
+	public ResponseEntity<Task> get(@PathVariable Long id) {
 
 		return ResponseEntity.of(repository.findById(id));
 	}
 
 	@DeleteMapping("{id}")
-	@CacheEvict(value = "accounts", allEntries = true)
-	public ResponseEntity<Account> delete(@PathVariable Long id) {
-		Optional<Account> account = repository.findById(id);
+	@CacheEvict(value = "tasks", allEntries = true)
+	public ResponseEntity<Task> delete(@PathVariable Long id) {
+		Optional<Task> task = repository.findById(id);
 
-		if (account.isEmpty())
+		if (task.isEmpty())
 			return ResponseEntity.notFound().build();
 
 		repository.deleteById(id);
@@ -73,21 +74,24 @@ public class ApiAccountController {
 	}
 
 	@PutMapping("{id}")
-	@CacheEvict(value = "accounts", allEntries = true)
-	public ResponseEntity<Account> update(@PathVariable Long id, @RequestBody @Valid Account newAccount) {
-		Optional<Account> optional = repository.findById(id);
+	@CacheEvict(value = "tasks", allEntries = true)
+	public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody @Valid Task newTask) {
+		Optional<Task> optional = repository.findById(id);
 
 		if (optional.isEmpty())
 			return ResponseEntity.notFound().build();
 
-		Account account = optional.get();
-		account.setNome(newAccount.getNome());
-		account.setEmail(newAccount.getEmail());
-		account.setSenha(newAccount.getSenha());
+		Task task = optional.get();
+		task.setTitle(newTask.getTitle());
+		task.setDescription(newTask.getDescription());
+		task.setPoints(newTask.getPoints());
+		task.setStatus(newTask.getStatus());
+		
 
-		repository.save(account);
+		repository.save(task);
 
-		return ResponseEntity.ok(account);
+		return ResponseEntity.ok(task);
 	}
+
 
 }

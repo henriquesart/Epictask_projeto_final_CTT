@@ -8,11 +8,13 @@
 <body>
 
 	<h1>EpicTask</h1>
-	<h2>Bem vindo ao Projeto Parcial, o grupo CTT criou um sistema de gerenciamento total de usuários, aproveite!</h2>
+	<h2 th:text="#{subtitle.task}"></h2>
 	<div class="start">
 		<ul>
-			<li><a href="/list">Lista de usuários</a></li>
-			<li><a href="/register">Registre-se</a></li>	
+			<li><a href="/list" th:text="#{menu.a}"></a></li>
+			<li><a href="/register" th:text="#{menu.b}"></a></li>
+			<li><a href="/taskregister" th:text="#{menu.c}"></a></li>	
+			<li><a href="/task" th:text="#{menu.d}"></a></li>		
 		</ul>
 	</div>
 	

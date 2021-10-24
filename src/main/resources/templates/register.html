@@ -7,17 +7,20 @@
 </head>
 <body>
 
-	<h1>Registro</h1>
-	<h2>Para cadastrar um novo usuário no sistema, preencha o formulário com as informações solicitadas.</h2>
+	<h1 th:text="#{title.task.b}"></h1>
+	<h2 th:text="#{subtitle.task.b}"></h2>
  
 	<div class="info">
-		<form action="/list" method="post" th:object="${account}">
+		<form th:action="@{/list}" method="post" th:object="${account}">
 		
 			<input name="nome" placeholder="Nome" th:field="*{nome}">
 			<h4 th:errors="*{nome}"></h4>
 			
 			<input name="email" placeholder="Email" th:field="*{email}">
 			<h4 th:errors="*{email}"></h4>
+			
+			<input type="text" name="githubuser" id="githubuser" placeholder="Usuário do GitHub" th:field="*{githubuser}" th:classappend="${#fields.hasErrors('githubuser')}?invalid"	autocomplete="off"/>
+			<span class="error" th:errors="*{githubuser}"></span>
 			
 			<input name="senha" placeholder="Senha" type="password" th:field="*{senha}">
 			<h4 th:errors="*{senha}"></h4>
